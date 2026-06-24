@@ -10,7 +10,7 @@ try:
     API_KEY = st.secrets["GEMINI_API_KEY"]
     genai.configure(api_key=API_KEY)
     # Usando o modelo 1.5-flash que é mais estável e rápido
-    model = genai.GenerativeModel('gemini-3.1-flash-lite-preview')
+    model = genai.GenerativeModel('gemini-3.1-flash-lite')
 except Exception as e:
     st.error("Erro na chave da API. Verifique o arquivo secrets.toml.")
 
@@ -18,9 +18,9 @@ except Exception as e:
 CAMINHO_LOGO = "logo.png" 
 ARQUIVO_HISTORICO = "historico_analises.txt"
 ENDERECO_FIXO = "Atendimento On-line"
-INSTA_FIXO = "@curcioandrea.doterra"
-ZAP_FIXO = "21 98501-9694"
-NOME_TERAPEUTA_FIXO = "Andrea Bignon"
+INSTA_FIXO = "@reflexologia.curitiba"
+ZAP_FIXO = "41 99161-0224"
+NOME_TERAPEUTA_FIXO = "Enir Neves"
 
 # --- FUNÇÕES DE PERSISTÊNCIA ---
 def salvar_no_historico(nome_paciente):
@@ -79,7 +79,7 @@ def gerar_pdf(texto_analise, dados_usuario, nome_terapeuta, info_rodape):
     data_formatada = dados_usuario['nascimento'].strftime('%d/%m/%Y')
     
     pdf.set_font("Arial", "B", 11)
-    pdf.cell(0, 8, f"Cliente: {dados_usuario['nome']}", ln=True)
+    pdf.cell(0, 8, f"Paciente: {dados_usuario['nome']}", ln=True)
     pdf.set_font("Arial", "", 10)
     pdf.cell(0, 6, f"Data de Nascimento: {data_formatada} ({dados_usuario['idade']} anos)", ln=True)
     pdf.cell(0, 6, f"Sexo: {dados_usuario['sexo']}", ln=True)
@@ -96,7 +96,7 @@ def gerar_pdf(texto_analise, dados_usuario, nome_terapeuta, info_rodape):
     pdf.set_font("Arial", "B", 11)
     pdf.cell(0, 8, txt=nome_terapeuta, ln=True, align='R')
     pdf.set_font("Arial", "I", 10)
-    pdf.cell(0, 8, txt="Consultor(a)", ln=True, align='R')
+    pdf.cell(0, 8, txt="Terapeuta", ln=True, align='R')
     
     return pdf.output(dest='S').encode('latin-1', 'replace')
 
@@ -125,13 +125,13 @@ with st.sidebar:
 
     st.divider()
     st.title("⚙️ Dados Fixos")
-    nome_terapeuta = st.text_input("Consultora", NOME_TERAPEUTA_FIXO)
+    nome_terapeuta = st.text_input("Terapeuta", NOME_TERAPEUTA_FIXO)
     endereco = st.text_input("Endereço", ENDERECO_FIXO)
     insta = st.text_input("Instagram", INSTA_FIXO)
     tel = st.text_input("WhatsApp", ZAP_FIXO)
 
 # ÁREA PRINCIPAL
-st.title("🌿 Portal Consultora doTerra Andrea Bignon")
+st.title("🌿 Portal Consultora doTerra Enir Neves")
 
 col1, col2 = st.columns(2)
 with col1:
@@ -171,7 +171,7 @@ if gerar:
                 
                 prompt_final = f"""
 
-                Você é uma Consultora doTERRA, com vasta experiência prática em:
+                Você é uma Terapeuta e Consultora doTERRA, com vasta experiência prática em:
 
                     - Saúde física, emocional, energética e espiritual
                     - Saúde preventiva
